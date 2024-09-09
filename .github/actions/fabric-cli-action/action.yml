@@ -17,4 +17,4 @@ runs:
   args:
     - ${{ inputs.resource_type }}
     - ${{ inputs.action }}
-    - ${{ inputs.value || '' }}
+    - ${{ inputs.value }}
