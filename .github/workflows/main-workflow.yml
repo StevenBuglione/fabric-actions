@@ -26,14 +26,14 @@ jobs:
           echo "Generated workspace name: $UNIQUE_WORKSPACE_NAME"
 
       - name: Use Reusable Workflow to Create Workspace
-        uses: ./.github/workflows/fabric-workflows.yml@main
+        uses: ./.github/workflows/fabric-workflows.yml
         with:
           resource_type: "workspaces"
           action: "create"
           value: "${{ env.workspace_name }}"
 
       - name: Use Reusable Workflow to List Workspaces
-        uses: ./.github/workflows/fabric-workflows.yml@main
+        uses: ./.github/workflows/fabric-workflows.yml
         with:
           resource_type: "workspaces"
           action: "list"
