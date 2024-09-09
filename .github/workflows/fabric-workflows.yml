@@ -33,7 +33,7 @@ jobs:
         with:
           resource_type: ${{ inputs.resource_type }}
           action: ${{ inputs.action }}
-          value: ${{ inputs.value || '' }}
+          value: ${{ inputs.value }}
         env:  # Pass secrets as environment variables
           AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
           AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
