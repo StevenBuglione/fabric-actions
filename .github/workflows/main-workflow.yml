@@ -7,13 +7,12 @@ on:
 
 jobs:
   create-workspaces:
-    # Calling the reusable workflow directly at the job level
     uses: StevenBuglione/fabric-cli-action/.github/workflows/fabric-workflows.yml@main
     with:
       resource_type: "workspaces"
       action: "create"
       value: "${{ github.run_id }}-$(date +%s)"
-    secrets:  # Secrets need to be passed here for reusable workflows
+    secrets:
       AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
       AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
       AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}

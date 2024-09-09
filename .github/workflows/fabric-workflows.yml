@@ -24,11 +24,6 @@ jobs:
   run-fabric-cli:
     runs-on: ubuntu-latest
 
-    env:
-      AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-      AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-      AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -39,3 +34,7 @@ jobs:
           resource_type: ${{ inputs.resource_type }}
           action: ${{ inputs.action }}
           value: ${{ inputs.value || '' }}
+        env:  # Pass secrets as environment variables
+          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
