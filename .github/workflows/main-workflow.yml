@@ -19,7 +19,7 @@ jobs:
       AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
 
   list-workspaces:
-    needs: manage-workspaces
+    needs: create-workspaces
     uses: StevenBuglione/fabric-cli-action/.github/workflows/fabric-workflows.yml@main
     with:
       resource_type: "workspaces"
