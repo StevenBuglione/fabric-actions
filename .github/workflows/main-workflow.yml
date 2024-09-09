@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  manage-workspaces:
+  create-workspaces:
     # Calling the reusable workflow directly at the job level
     uses: StevenBuglione/fabric-cli-action/.github/workflows/fabric-workflows.yml@main
     with:

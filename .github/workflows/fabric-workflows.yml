@@ -30,6 +30,9 @@ jobs:
       AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
       - name: Run Fabric CLI Command
         uses: ./.github/actions/fabric-cli-action
         with:
