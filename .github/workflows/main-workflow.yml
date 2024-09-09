@@ -7,34 +7,24 @@ on:
 
 jobs:
   manage-workspaces:
-    runs-on: ubuntu-latest
-
-    env:
+    # Calling the reusable workflow directly at the job level
+    uses: StevenBuglione/fabric-cli-action/.github/workflows/fabric-workflows.yml@main
+    with:
+      resource_type: "workspaces"
+      action: "create"
+      value: "${{ github.run_id }}-$(date +%s)"
+    secrets:  # Secrets need to be passed here for reusable workflows
       AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
       AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
       AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Generate Unique Workspace Name
-        id: generate-name
-        run: |
-          UNIQUE_WORKSPACE_NAME="workspace-${{ github.run_id }}-$(date +%s)"
-          echo "workspace_name=${UNIQUE_WORKSPACE_NAME}" >> $GITHUB_ENV
-          echo "Generated workspace name: $UNIQUE_WORKSPACE_NAME"
-
-      # Correctly reference the reusable workflow in the main branch
-      - name: Use Reusable Workflow to Create Workspace
-        uses: StevenBuglione/fabric-cli-action/.github/workflows/fabric-workflows.yml@main
-        with:
-          resource_type: "workspaces"
-          action: "create"
-          value: "${{ env.workspace_name }}"
-
-      - name: Use Reusable Workflow to List Workspaces
-        uses: StevenBuglione/fabric-cli-action/.github/workflows/fabric-workflows.yml@main
-        with:
-          resource_type: "workspaces"
-          action: "list"
+  list-workspaces:
+    needs: manage-workspaces
+    uses: StevenBuglione/fabric-cli-action/.github/workflows/fabric-workflows.yml@main
+    with:
+      resource_type: "workspaces"
+      action: "list"
+    secrets:
+      AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
