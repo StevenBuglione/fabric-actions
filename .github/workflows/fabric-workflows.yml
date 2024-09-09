@@ -1,0 +1,31 @@
+name: "Fabric Resource Management"
+
+on:
+  workflow_call:
+    inputs:
+      resource_type:
+        required: true
+        type: string
+      action:
+        required: true
+        type: string
+      value:
+        required: false
+        type: string
+
+jobs:
+  run-fabric-cli:
+    runs-on: ubuntu-latest
+
+    env:
+      AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+
+    steps:
+      - name: Run Fabric CLI Command
+        uses: ./.github/actions/fabric-cli-action
+        with:
+          resource_type: ${{ inputs.resource_type }}
+          action: ${{ inputs.action }}
+          value: ${{ inputs.value || '' }}

@@ -1,0 +1,24 @@
+name: "Fabric CLI Action"
+description: "GitHub Action to run Fabric CLI commands for Microsoft Fabric resources."
+inputs:
+  resource_type:
+    description: "The type of Fabric resource (e.g., workspaces)"
+    required: true
+  action:
+    description: "Action to perform (e.g., create, list)"
+    required: true
+  value:
+    description: "The value being passed to the action (e.g., workspace name)"
+    required: false
+
+runs:
+  using: "docker"
+  image: "ghcr.io/stevenbuglione/fabric-cli:release"
+  env:
+    AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+    AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+    AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+  args:
+    - ${{ inputs.resource_type }}
+    - ${{ inputs.action }}
+    - ${{ inputs.value || '' }}

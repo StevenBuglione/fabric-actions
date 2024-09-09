@@ -1,0 +1,39 @@
+name: "Manage Fabric Workspaces"
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  manage-workspaces:
+    runs-on: ubuntu-latest
+
+    env:
+      AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Generate Unique Workspace Name
+        id: generate-name
+        run: |
+          UNIQUE_WORKSPACE_NAME="workspace-${{ github.run_id }}-$(date +%s)"
+          echo "workspace_name=${UNIQUE_WORKSPACE_NAME}" >> $GITHUB_ENV
+          echo "Generated workspace name: $UNIQUE_WORKSPACE_NAME"
+
+      - name: Use Reusable Workflow to Create Workspace
+        uses: ./.github/workflows/fabric-workflows.yml@main
+        with:
+          resource_type: "workspaces"
+          action: "create"
+          value: "${{ env.workspace_name }}"
+
+      - name: Use Reusable Workflow to List Workspaces
+        uses: ./.github/workflows/fabric-workflows.yml@main
+        with:
+          resource_type: "workspaces"
+          action: "list"
