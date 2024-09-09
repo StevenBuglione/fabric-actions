@@ -14,10 +14,6 @@ inputs:
 runs:
   using: "docker"
   image: "ghcr.io/stevenbuglione/fabric-cli:release"
-  env:
-    AZURE_TENANT_ID: ${{ env.AZURE_TENANT_ID }}  # Assume these are passed from the workflow
-    AZURE_CLIENT_ID: ${{ env.AZURE_CLIENT_ID }}
-    AZURE_CLIENT_SECRET: ${{ env.AZURE_CLIENT_SECRET }}
   args:
     - ${{ inputs.resource_type }}
     - ${{ inputs.action }}
