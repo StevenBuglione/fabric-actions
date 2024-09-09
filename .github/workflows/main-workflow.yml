@@ -25,15 +25,16 @@ jobs:
           echo "workspace_name=${UNIQUE_WORKSPACE_NAME}" >> $GITHUB_ENV
           echo "Generated workspace name: $UNIQUE_WORKSPACE_NAME"
 
+      # Correctly reference the reusable workflow in the main branch
       - name: Use Reusable Workflow to Create Workspace
-        uses: ./.github/workflows/fabric-workflows.yml
+        uses: StevenBuglione/fabric-cli-action/.github/workflows/fabric-workflows.yml@main
         with:
           resource_type: "workspaces"
           action: "create"
           value: "${{ env.workspace_name }}"
 
       - name: Use Reusable Workflow to List Workspaces
-        uses: ./.github/workflows/fabric-workflows.yml
+        uses: StevenBuglione/fabric-cli-action/.github/workflows/fabric-workflows.yml@main
         with:
           resource_type: "workspaces"
           action: "list"
