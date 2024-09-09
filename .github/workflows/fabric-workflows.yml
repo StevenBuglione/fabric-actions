@@ -12,6 +12,13 @@ on:
       value:
         required: false
         type: string
+    secrets:
+      AZURE_TENANT_ID:
+        required: true
+      AZURE_CLIENT_ID:
+        required: true
+      AZURE_CLIENT_SECRET:
+        required: true
 
 jobs:
   run-fabric-cli:
