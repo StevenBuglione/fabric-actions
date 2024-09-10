@@ -1,13 +1,20 @@
-name: 'Hello World'
-description: 'Greet someone and record the time'
+name: "Fabric CLI Action"
+description: "GitHub Action to run Fabric CLI commands for Microsoft Fabric resources."
 inputs:
-  who-to-greet:  # id of input
-    description: 'Who to greet'
+  resource_type:
+    description: "The type of Fabric resource (e.g., workspaces)"
     required: true
-    default: 'World'
-outputs:
-  time: # id of output
-    description: 'The time we greeted you'
+  action:
+    description: "Action to perform (e.g., create, list)"
+    required: true
+  value:
+    description: "The value being passed to the action (e.g., workspace name)"
+    required: false
+
 runs:
-  using: 'node20'
-  main: 'dist/index.js'
+  using: "docker"
+  image: "ghcr.io/stevenbuglione/fabric-cli:release"
+  args:
+    - ${{ inputs.resource_type }}
+    - ${{ inputs.action }}
+    - ${{ inputs.value }}
