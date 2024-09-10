@@ -14,12 +14,17 @@ function appendArg(command, arg) {
   return arg ? `${command} ${arg}` : command;
 }
 
+// Function to check if the input value is "''" and replace it with an empty string
+function checkInput(input) {
+  return input === "''" ? '' : input;
+}
+
 // Function to get inputs from the workflow file
 function getInputs() {
   return {
-    resource_type: core.getInput('resource_type'),
-    action: core.getInput('action'),
-    value: core.getInput('value')
+    resource_type: checkInput(core.getInput('resource_type')),
+    action: checkInput(core.getInput('action')),
+    value: checkInput(core.getInput('value'))
   };
 }
 
