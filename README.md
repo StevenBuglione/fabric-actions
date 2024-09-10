@@ -26,7 +26,7 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Run Fabric CLI Action
-      uses: stevenbuglione/fabric-cli-action@v1
+      uses: stevenbuglione/fabric-cli-action@v1.0
       with:
         resource_type: 'workspace'
         action: 'create'
