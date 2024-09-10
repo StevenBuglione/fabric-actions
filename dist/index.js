@@ -28069,8 +28069,7 @@ var __webpack_exports__ = {};
 const core = __nccwpck_require__(4158);
 const exec = __nccwpck_require__(7282);
 
-
-// Function to get inputs from the workflow file
+// Function to get inputs from the GitHub Action
 function getInputs() {
   return {
     resource_type: core.getInput('resource_type'),
@@ -28079,23 +28078,40 @@ function getInputs() {
   };
 }
 
+// Function to format the command for creating a workspace
+function getWorkspaceCreateCommand(inputs){
+  return `${inputs.resource_type} ${inputs.action} ${inputs.value}`;
+}
+
+// Function to format the command for listing workspaces
+function getWorkspaceListCommand(inputs){
+  return `${inputs.resource_type} ${inputs.action}`;
+}
+
+// Function to get the formatted command based on the inputs
+function getFormatedCommand() {
+  const inputs = getInputs();
+
+  if(inputs.resource_type === 'workspace' && inputs.action === 'create'){
+    return getWorkspaceCreateCommand(inputs);
+  }
+
+  if(inputs.resource_type === 'workspace' && inputs.action === 'list'){
+    return getWorkspaceListCommand(inputs);
+  }
+}
+
+// Main function to run the Docker command
 async function run() {
   try {
-    // Get inputs
-    const inputs = getInputs();
-
     // Pull the Docker image
     await exec.exec('docker pull ghcr.io/stevenbuglione/fabric-cli:release');
 
     // Initialize command with Docker image and hardcoded environment variables
-    let command = 'docker run --rm' +
-        ' -e AZURE_TENANT_ID="' + process.env.AZURE_TENANT_ID + '"' +
-        ' -e AZURE_CLIENT_ID="' + process.env.AZURE_CLIENT_ID + '"' +
-        ' -e AZURE_CLIENT_SECRET="' + process.env.AZURE_CLIENT_SECRET + '"' +
-        ' ghcr.io/stevenbuglione/fabric-cli:release';
+    let command = `docker run --rm -e AZURE_TENANT_ID="${process.env.AZURE_TENANT_ID}" -e AZURE_CLIENT_ID="${process.env.AZURE_CLIENT_ID}" -e AZURE_CLIENT_SECRET="${process.env.AZURE_CLIENT_SECRET}" ghcr.io/stevenbuglione/fabric-cli:release`;
 
     // Append inputs to command inline
-    command += ` ${inputs.resource_type} ${inputs.action} ${inputs.value}`;
+    command += ` ${getFormatedCommand()}`;
 
     // Run the Docker image with the necessary arguments and environment variables
     await exec.exec(command);
@@ -28104,6 +28120,7 @@ async function run() {
   }
 }
 
+// Run the main function and log any errors
 run().catch(error => {
   console.error(error.message);
 });
