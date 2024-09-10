@@ -28115,14 +28115,19 @@ async function run() {
     await exec.exec('docker pull ghcr.io/stevenbuglione/fabric-cli:release');
 
     // Initialize command with Docker image
-    let command = 'docker run ghcr.io/stevenbuglione/fabric-cli:release';
+    let command = 'docker run --rm';
 
     // Append environment variables to command
-    command = appendEnvVars(command, envVars);
+    for (const [key, value] of Object.entries(envVars)) {
+      command += ` \\ \n  -e ${key}="${value}"`;
+    }
+
+    // Append Docker image to command
+    command += ` \\ \n  ghcr.io/stevenbuglione/fabric-cli:release`;
 
     // Append inputs to command
     for (const [key, value] of Object.entries(inputs)) {
-      command = appendArg(command, value);
+      command += ` \\ \n  ${value}`;
     }
 
     // Run the Docker image with the necessary arguments and environment variables
@@ -28131,10 +28136,6 @@ async function run() {
     core.setFailed(error.message);
   }
 }
-
-run().catch(error => {
-  console.error(error.message);
-});
 })();
 
 module.exports = __webpack_exports__;
