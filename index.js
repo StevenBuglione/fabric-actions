@@ -20,11 +20,11 @@ async function run() {
     await exec.exec('docker pull ghcr.io/stevenbuglione/fabric-cli:release');
 
     // Initialize command with Docker image and hardcoded environment variables
-    let command = 'docker run --rm \\\n' +
-        '  -e AZURE_TENANT_ID="' + process.env.AZURE_TENANT_ID + '" \\\n' +
-        '  -e AZURE_CLIENT_ID="' + process.env.AZURE_CLIENT_ID + '" \\\n' +
-        '  -e AZURE_CLIENT_SECRET="' + process.env.AZURE_CLIENT_SECRET + '" \\\n' +
-        '  ghcr.io/stevenbuglione/fabric-cli:release';
+    let command = 'docker run --rm' +
+        ' -e AZURE_TENANT_ID="' + process.env.AZURE_TENANT_ID + '"' +
+        ' -e AZURE_CLIENT_ID="' + process.env.AZURE_CLIENT_ID + '"' +
+        ' -e AZURE_CLIENT_SECRET="' + process.env.AZURE_CLIENT_SECRET + '"' +
+        ' ghcr.io/stevenbuglione/fabric-cli:release';
 
     // Append inputs to command inline
     command += ` ${inputs.resource_type} ${inputs.action} ${inputs.value}`;
