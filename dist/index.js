@@ -28105,10 +28105,10 @@ function getFormatedCommand() {
 async function run() {
   try {
     // Pull the Docker image
-    await exec.exec('docker pull ghcr.io/stevenbuglione/fabric-cli:release');
+    await exec.exec('docker pull ghcr.io/stevenbuglione/fabric-cli:2.0.0');
 
     // Initialize command with Docker image and hardcoded environment variables
-    let command = `docker run --rm -e AZURE_TENANT_ID="${process.env.AZURE_TENANT_ID}" -e AZURE_CLIENT_ID="${process.env.AZURE_CLIENT_ID}" -e AZURE_CLIENT_SECRET="${process.env.AZURE_CLIENT_SECRET}" ghcr.io/stevenbuglione/fabric-cli:release`;
+    let command = `docker run --rm -e AZURE_USERNAME="${process.env.AZURE_USERNAME}" -e AZURE_PASSWORD="${process.env.AZURE_PASSWORD}" ghcr.io/stevenbuglione/fabric-cli:2.0.0`;
 
     // Append inputs to command inline
     command += ` ${getFormatedCommand()}`;
