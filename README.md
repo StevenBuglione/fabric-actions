@@ -39,17 +39,16 @@ In this example, the action will create a new workspace named 'my-workspace'.
 
 This action requires the following environment variables to be set:
 
-- `AZURE_TENANT_ID`: Your Azure Tenant ID.
-- `AZURE_CLIENT_ID`: Your Azure Client ID.
-- `AZURE_CLIENT_SECRET`: Your Azure Client Secret.
+- `AZURE_USERNAME`: Your Azure Email.
+- `AZURE_PASSWORD`: Your Azure Password.
 
 These can be set in the `env` field of your workflow file:
 
 ```yaml
 env:
-  AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-  AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-  AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+  AZURE_USERNAME: ${{ secrets.AZURE_USERNAME }}
+  AZURE_PASSWORD: ${{ secrets.AZURE_PASSWORD }}
+
 ```
 
 Please make sure to store your Azure credentials as secrets in your GitHub repository.
